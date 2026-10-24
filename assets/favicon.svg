@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <style>
+      @keyframes eqBar1 {
+        0%, 100% { height: 6px; y: 37px; }
+        50% { height: 18px; y: 25px; }
+      }
+      @keyframes eqBar2 {
+        0%, 100% { height: 22px; y: 21px; }
+        50% { height: 8px; y: 35px; }
+      }
+      @keyframes eqBar3 {
+        0%, 100% { height: 10px; y: 33px; }
+        50% { height: 20px; y: 23px; }
+      }
+      @keyframes glowAura {
+        0%, 100% { opacity: 0.12; transform: scale(0.92); }
+        50% { opacity: 0.38; transform: scale(1.18); }
+      }
+      @keyframes borderHue {
+        0%, 100% { filter: hue-rotate(0deg); }
+        50% { filter: hue-rotate(40deg); }
+      }
+      .anim-bar-1 { animation: eqBar1 1.1s ease-in-out infinite; }
+      .anim-bar-2 { animation: eqBar2 0.85s ease-in-out infinite; }
+      .anim-bar-3 { animation: eqBar3 1.35s ease-in-out infinite; }
+      .anim-aura { transform-origin: 28px 32px; animation: glowAura 2.2s ease-in-out infinite; }
+      .anim-border { animation: borderHue 3.6s ease-in-out infinite; }
+    </style>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c0e14"/>
+      <stop offset="100%" stop-color="#050507"/>
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="monogramGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Squircle Badge -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGrad)"/>
+  <rect class="anim-border" x="1" y="1" width="62" height="62" rx="15" fill="none" stroke="url(#borderGrad)" stroke-width="2" stroke-opacity="0.9"/>
+
+  <!-- Pulsing Glowing Aura -->
+  <circle class="anim-aura" cx="28" cy="32" r="14" fill="#00f0ff"/>
+
+  <!-- Bold Modern Geometric "A" -->
+  <path d="M 12 48 L 24 16 H 30 L 42 48 H 34.5 L 31.8 40.5 H 22.2 L 19.5 48 Z M 24.2 34.5 H 29.8 L 27 25 Z" fill="url(#monogramGrad)"/>
+
+  <!-- Iconic Soundwave / Equalizer Bars (Animated) -->
+  <rect class="anim-bar-1" x="44.5" y="32" width="3" height="11" rx="1.5" fill="#00f0ff"/>
+  <rect class="anim-bar-2" x="49" y="24" width="3" height="19" rx="1.5" fill="#38bdf8"/>
+  <rect class="anim-bar-3" x="53.5" y="29" width="3" height="14" rx="1.5" fill="#818cf8"/>
+</svg>

@@ -1,0 +1,419 @@
+/* ==========================================================================
+   ALEIS — Digital Studio & Engineering
+   High-Animation Dark Mode Stylesheet: Preloader, 3D Tilt Cards,
+   Custom Magnetic Cursor, Specular Spotlights & Smooth Scroll Reveals
+   ========================================================================== */
+
+:root {
+  --bg-void: #050507;
+  --bg-obsidian: #09090c;
+  --bg-surface: #0e0f14;
+  --titanium-light: #f4f4f6;
+  --electric-cyan: #00f0ff;
+  --aleis-blue: #3b82f6;
+  --aleis-indigo: #6366f1;
+  --aleis-violet: #8b5cf6;
+  --cursor-x: 50vw;
+  --cursor-y: 50vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-void);
+  color: var(--titanium-light);
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg-void);
+  color: var(--titanium-light);
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(0, 240, 255, 0.25);
+  color: #ffffff;
+}
+
+.font-display {
+  font-family: 'Syne', 'Space Grotesk', sans-serif;
+}
+
+.font-grotesk {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-serif-editorial {
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #050507;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272f;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00f0ff;
+}
+
+/* ==========================================================================
+   1. Cinematic Boot Preloader
+   ========================================================================== */
+.aleis-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #050507;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.65s;
+}
+
+.aleis-preloader.is-loaded {
+  opacity: 0;
+  transform: translateY(-3%);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   2. Tactile Film Grain & Architectural Grid
+   ========================================================================== */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.architectural-grid-bg {
+  background-size: 72px 72px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 90% 75% at 50% 30%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 30%, #000 30%, transparent 100%);
+}
+
+.bg-micro-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* ==========================================================================
+   3. Custom Dual-Layer Magnetic Cursor
+   ========================================================================== */
+@media (pointer: fine) {
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: #00f0ff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100;
+    transform: translate3d(-50%, -50%, 0);
+    box-shadow: 0 0 14px rgba(0, 240, 255, 0.9);
+    transition: opacity 0.2s ease, transform 0.1s ease;
+  }
+
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(228, 228, 231, 0.35);
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 99;
+    transform: translate3d(-50%, -50%, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s ease,
+                border-color 0.3s ease;
+    backdrop-filter: blur(2px);
+  }
+
+  .cursor-ring-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #050507;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+  }
+
+  body.cursor-hover-interactive .cursor-ring {
+    width: 64px;
+    height: 64px;
+    border-color: rgba(0, 240, 255, 0.7);
+    background-color: rgba(0, 240, 255, 0.09);
+  }
+
+  body.cursor-hover-card .cursor-ring {
+    width: 92px;
+    height: 36px;
+    background-color: #00f0ff;
+    border-color: #00f0ff;
+    box-shadow: 0 0 28px rgba(0, 240, 255, 0.5);
+  }
+
+  body.cursor-hover-card .cursor-ring-label {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  body.cursor-hover-card .cursor-dot {
+    opacity: 0;
+  }
+}
+
+/* Ambient Cursor Aura */
+.ambient-cursor-aura {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    circle,
+    rgba(0, 240, 255, 0.05) 0%,
+    rgba(99, 102, 241, 0.04) 40%,
+    transparent 72%
+  );
+  transform: translate3d(calc(var(--cursor-x) - 350px), calc(var(--cursor-y) - 350px), 0);
+  will-change: transform;
+}
+
+/* ==========================================================================
+   4. Text Gradients & Glowing Accents
+   ========================================================================== */
+.text-titanium {
+  background: linear-gradient(180deg, #ffffff 0%, #e4e4e7 55%, #71717a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-electric-aleis {
+  background: linear-gradient(125deg, #00f0ff 0%, #60a5fa 35%, #818cf8 70%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   5. 3D Perspective Tilt & Spotlight Cards
+   ========================================================================== */
+.spotlight-card {
+  position: relative;
+  background: linear-gradient(165deg, rgba(20, 22, 30, 0.75) 0%, rgba(9, 10, 14, 0.94) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    0 20px 50px -20px rgba(0, 0, 0, 0.85);
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    550px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    rgba(0, 240, 255, 0.09),
+    rgba(99, 102, 241, 0.05) 40%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spotlight-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    360px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    rgba(0, 240, 255, 0.65),
+    rgba(129, 140, 248, 0.4) 45%,
+    transparent 75%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.spotlight-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
+    0 30px 60px -15px rgba(0, 0, 0, 0.9),
+    0 0 40px -10px rgba(0, 240, 255, 0.18);
+}
+
+.spotlight-card:hover::before,
+.spotlight-card:hover::after {
+  opacity: 1;
+}
+
+.spotlight-content {
+  position: relative;
+  z-index: 3;
+}
+
+/* ==========================================================================
+   6. Keyframe Micro-Animations (Floating, Equalizer, Wave, Marquee, Aura)
+   ========================================================================== */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(7px); }
+}
+
+.animate-float-1 { animation: floatSlow 4.5s ease-in-out infinite; }
+.animate-float-2 { animation: floatReverse 5.2s ease-in-out infinite 0.4s; }
+.animate-float-3 { animation: floatSlow 4.8s ease-in-out infinite 0.9s; }
+.animate-float-4 { animation: floatReverse 5.5s ease-in-out infinite 0.2s; }
+
+@keyframes eqBarDance1 {
+  0%, 100% { transform: scaleY(0.45); }
+  50% { transform: scaleY(1); }
+}
+@keyframes eqBarDance2 {
+  0%, 100% { transform: scaleY(1); }
+  35% { transform: scaleY(0.4); }
+  75% { transform: scaleY(0.9); }
+}
+@keyframes eqBarDance3 {
+  0%, 100% { transform: scaleY(0.6); }
+  45% { transform: scaleY(1.1); }
+  80% { transform: scaleY(0.45); }
+}
+
+.eq-bar {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+}
+.eq-bar-1 { animation: eqBarDance1 1.8s ease-in-out infinite; }
+.eq-bar-2 { animation: eqBarDance2 1.4s ease-in-out infinite 0.15s; }
+.eq-bar-3 { animation: eqBarDance3 1.2s ease-in-out infinite 0.05s; }
+.eq-bar-4 { animation: eqBarDance2 1.6s ease-in-out infinite 0.3s; }
+.eq-bar-5 { animation: eqBarDance1 2.0s ease-in-out infinite 0.2s; }
+
+@keyframes signalPulseFlow {
+  0% { stroke-dashoffset: 260; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.aleis-wave-glow {
+  stroke-dasharray: 65 195;
+  animation: signalPulseFlow 3.2s linear infinite;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Founder Card Animated Border Aura */
+@keyframes borderSpinGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.founder-aura-border {
+  background: linear-gradient(270deg, #00f0ff, #3b82f6, #8b5cf6, #00f0ff);
+  background-size: 300% 300%;
+  animation: borderSpinGlow 6s ease infinite;
+}
+
+/* Form Input Styling */
+.input-architectural {
+  background: rgba(10, 11, 15, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f4f4f6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.input-architectural:focus {
+  outline: none;
+  border-color: rgba(0, 240, 255, 0.65);
+  background: rgba(14, 16, 22, 0.95);
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.12), 0 0 25px -5px rgba(0, 240, 255, 0.3);
+}
+
+.work-filter-btn.active {
+  background: #00f0ff;
+  color: #050507;
+  border-color: #00f0ff;
+  font-weight: 700;
+}
+
+.gs-reveal {
+  will-change: transform, opacity;
+}
