@@ -1,0 +1,9 @@
+# Robots.txt for ALEIS
+# Digital Engineering, AI & Creative Studio
+# https://agollales-gif.github.io/Aleis/
+
+User-agent: *
+Allow: /
+
+# Direct search engine crawlers to the XML sitemap
+Sitemap: https://agollales-gif.github.io/Aleis/sitemap.xml

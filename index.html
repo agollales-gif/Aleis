@@ -2,14 +2,255 @@
 <html lang="en" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  
+  <!-- Primary Meta Tags -->
   <title>ALEIS — Digital Engineering, AI &amp; Creative Studio</title>
-  <meta name="description" content="ALEIS — Digital Engineering, AI &amp; Creative Studio" />
+  <meta name="title" content="ALEIS — Digital Engineering, AI &amp; Creative Studio" />
+  <meta name="description" content="ALEIS is a digital engineering &amp; AI creative studio by Alesjo Agolli. We engineer bespoke web apps, custom AI assistants, and high-performance digital systems." />
+  <meta name="keywords" content="ALEIS, Alesjo Agolli, Digital Engineering, AI Creative Studio, Full-Stack Web Development, Custom AI Assistants, React, Next.js, Fastify, UI UX Design, Albania Software Studio, Creative Technologist" />
+  <meta name="author" content="Alesjo Agolli" />
+  <meta name="creator" content="Alesjo Agolli" />
+  <meta name="publisher" content="ALEIS" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://agollales-gif.github.io/Aleis/" />
+
+  <!-- Robots / Crawler Directives -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+
+  <!-- Geographic / Local SEO Meta -->
+  <meta name="geo.region" content="AL-TR" />
+  <meta name="geo.placename" content="Tirana, Albania" />
+  <meta name="geo.position" content="41.3275;19.8187" />
+  <meta name="ICBM" content="41.3275, 19.8187" />
+
+  <!-- Open Graph / Facebook / LinkedIn / Discord -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ALEIS" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://agollales-gif.github.io/Aleis/" />
+  <meta property="og:title" content="ALEIS — Digital Engineering, AI &amp; Creative Studio" />
+  <meta property="og:description" content="ALEIS is a digital engineering &amp; AI creative studio by Alesjo Agolli. We engineer bespoke web apps, custom AI assistants, and high-performance digital systems." />
+  <meta property="og:image" content="https://agollales-gif.github.io/Aleis/assets/aleis-logo.jpg" />
+  <meta property="og:image:secure_url" content="https://agollales-gif.github.io/Aleis/assets/aleis-logo.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1024" />
+  <meta property="og:image:height" content="571" />
+  <meta property="og:image:alt" content="ALEIS — Digital Engineering, AI &amp; Creative Studio" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@agollales" />
+  <meta name="twitter:creator" content="@agollales" />
+  <meta name="twitter:url" content="https://agollales-gif.github.io/Aleis/" />
+  <meta name="twitter:title" content="ALEIS — Digital Engineering, AI &amp; Creative Studio" />
+  <meta name="twitter:description" content="ALEIS is a digital engineering &amp; AI creative studio by Alesjo Agolli. We engineer bespoke web apps, custom AI assistants, and high-performance digital systems." />
+  <meta name="twitter:image" content="https://agollales-gif.github.io/Aleis/assets/aleis-logo.jpg" />
+  <meta name="twitter:image:alt" content="ALEIS — Digital Engineering, AI &amp; Creative Studio" />
+
+  <!-- Mobile & PWA Capabilities -->
+  <meta name="theme-color" content="#050507" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="ALEIS" />
+  <meta name="apple-mobile-web-app-title" content="ALEIS" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="manifest" href="./site.webmanifest" />
 
   <!-- Favicon / Tab Icon -->
   <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
   <link rel="alternate icon" type="image/jpeg" href="./assets/aleis-logo.jpg" />
   <link rel="apple-touch-icon" href="./assets/favicon.svg" />
+
+  <!-- Structured Data (JSON-LD) for Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://agollales-gif.github.io/Aleis/#website",
+        "url": "https://agollales-gif.github.io/Aleis/",
+        "name": "ALEIS",
+        "alternateName": "ALEIS Digital Engineering & AI Studio",
+        "description": "Digital engineering and AI creative studio engineering bespoke web apps, AI systems, and platforms.",
+        "publisher": {
+          "@id": "https://agollales-gif.github.io/Aleis/#organization"
+        },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": ["Organization", "ProfessionalService"],
+        "@id": "https://agollales-gif.github.io/Aleis/#organization",
+        "name": "ALEIS",
+        "alternateName": "ALEIS Studio",
+        "url": "https://agollales-gif.github.io/Aleis/",
+        "logo": "https://agollales-gif.github.io/Aleis/assets/aleis-logo.jpg",
+        "image": "https://agollales-gif.github.io/Aleis/assets/aleis-logo.jpg",
+        "description": "Elite digital engineering and AI creative studio founded by Alesjo Agolli.",
+        "email": "contact@aleis.tech",
+        "telephone": "+355676770825",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Tirana",
+          "addressCountry": "AL"
+        },
+        "founder": {
+          "@id": "https://agollales-gif.github.io/Aleis/#founder"
+        },
+        "priceRange": "$$$",
+        "sameAs": [
+          "https://www.linkedin.com/company/aleis-tech/",
+          "https://github.com/agollales-gif",
+          "https://alesjoagolli.vercel.app/"
+        ],
+        "knowsAbout": [
+          "Full-Stack Web Development",
+          "Artificial Intelligence Integration",
+          "Custom AI Assistants & Ollama",
+          "UI/UX Design Systems",
+          "React",
+          "Next.js",
+          "Fastify",
+          "Node.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "GSAP Motion Design"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Studio Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Full-Stack Web Development",
+                "description": "Engineered with React, Next.js, TypeScript, and modern APIs for enterprise-grade speed and reliability."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "AI Integration & Custom Assistants",
+                "description": "Local Ollama models and cloud LLMs integrated seamlessly into production workflows and chatbots."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "UI/UX, Brand & Interactive Web",
+                "description": "High-end visual design in Figma combined with fluid GSAP animations and responsive design systems."
+              }
+            }
+          ]
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://agollales-gif.github.io/Aleis/#founder",
+        "name": "Alesjo Agolli",
+        "jobTitle": "Founder & Lead Creative Technologist",
+        "worksFor": {
+          "@id": "https://agollales-gif.github.io/Aleis/#organization"
+        },
+        "url": "https://alesjoagolli.vercel.app/",
+        "image": "https://agollales-gif.github.io/Aleis/assets/alesjo-agolli.jpg",
+        "sameAs": [
+          "https://github.com/agollales-gif",
+          "https://www.linkedin.com/in/alesjo-agolli-a82223361/",
+          "https://alesjoagolli.vercel.app/"
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://agollales-gif.github.io/Aleis/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://agollales-gif.github.io/Aleis/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "What We Do",
+            "item": "https://agollales-gif.github.io/Aleis/#what-we-do"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Works & Portfolio",
+            "item": "https://agollales-gif.github.io/Aleis/#works"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Founder",
+            "item": "https://agollales-gif.github.io/Aleis/#founder"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "Why Choose Us",
+            "item": "https://agollales-gif.github.io/Aleis/#why-us"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "name": "Contact",
+            "item": "https://agollales-gif.github.io/Aleis/#contact"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://agollales-gif.github.io/Aleis/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What services does ALEIS provide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ALEIS engineers full-stack web and mobile applications, bespoke AI integrations (both private local Ollama and cloud LLMs), and luxury interactive UI/UX design systems."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who is the founder of ALEIS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ALEIS was founded by Alesjo Agolli, a full-stack developer, AI integrator, and creative technologist based in Tirana, Albania."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What notable production systems has ALEIS built?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Notable systems include the unified four-product digital ecosystem for Qendra Sociale Don Bosko Tiranë (Institutional Portal, Sekretaria Admin, Mobile App, and Bosko AI), the Luka Rent a Car booking engine, and the Haneul distribution platform."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can organizations work with ALEIS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Organizations can collaborate directly with ALEIS by booking an inquiry through the contact form, emailing contact@aleis.tech, or messaging via WhatsApp at +355 67 677 0825."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,6 +290,11 @@
 </head>
 
 <body class="bg-[#050507] text-[#f4f4f6] antialiased relative min-h-screen">
+
+  <!-- Accessible Skip to Main Content Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-5 focus:py-3 focus:bg-cyan-400 focus:text-black focus:font-bold focus:rounded-xl focus:shadow-[0_0_25px_rgba(0,240,255,0.6)] focus:outline-none">
+    Skip to main content
+  </a>
 
   <!-- ========================================================================
        CINEMATIC BOOT PRELOADER
@@ -159,7 +405,7 @@
     </div>
 
     <!-- Mobile Menu Drawer -->
-    <div id="mobile-menu" class="hidden opacity-0 -translate-y-2 transition-all duration-200 md:hidden border-b border-white/[0.08] bg-[#050507]/95 backdrop-blur-2xl px-4 pt-3 pb-6">
+    <div id="mobile-menu" class="hidden opacity-0 -translate-y-2 transition-all duration-200 md:hidden border-b border-white/[0.08] bg-[#050507]/95 backdrop-blur-2xl px-4 pt-3 pb-6" role="navigation" aria-label="Mobile Navigation">
       <div class="flex flex-col space-y-1">
         <a href="#what-we-do" class="mobile-nav-link flex items-center justify-between px-4 py-3 rounded-xl text-sm font-mono-tech uppercase text-zinc-200 hover:bg-white/[0.05]">
           <span>What We Do</span>
@@ -181,7 +427,7 @@
     </div>
   </header>
 
-  <main class="relative z-10">
+  <main id="main-content" class="relative z-10" role="main">
 
     <!-- ======================================================================
          HERO — CLEAN, VISUAL & HIGHLY ANIMATED
@@ -711,7 +957,7 @@
                 <!-- Left 4 Columns: Alesjo Agolli Portrait & Identity Badge -->
                 <div class="lg:col-span-4 flex flex-col items-center lg:items-start space-y-4">
                   <div class="relative w-full max-w-[320px] rounded-2xl overflow-hidden border border-white/15 bg-[#050507] aspect-[4/5] group shadow-2xl">
-                    <img src="./assets/alesjo-agolli.jpg" alt="Alesjo Agolli — Founder of ALEIS" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" />
+                    <img src="./assets/alesjo-agolli.jpg" alt="Alesjo Agolli — Founder of ALEIS" width="768" height="1024" loading="lazy" decoding="async" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" />
                     <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/95 via-black/70 to-transparent">
                       <div class="font-display text-lg font-bold text-white">Alesjo Agolli</div>
                       <div class="font-mono-tech text-[11px] text-cyan-300">● FOUNDER OF ALEIS // TIRANA, AL</div>
@@ -901,11 +1147,11 @@
               <div class="spotlight-content flex items-center justify-between gap-3">
                 <div>
                   <div class="font-mono-tech text-[10px] text-zinc-500 uppercase">DIRECT EMAIL</div>
-                  <a href="mailto:agollales@gmail.com" class="font-mono-tech text-sm sm:text-base font-semibold text-white hover:text-cyan-300">
-                    agollales@gmail.com
+                  <a href="mailto:contact@aleis.tech" class="font-mono-tech text-sm sm:text-base font-semibold text-white hover:text-cyan-300">
+                    contact@aleis.tech
                   </a>
                 </div>
-                <button id="copy-email-btn" type="button" class="px-3.5 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 font-mono-tech text-xs text-zinc-200">
+                <button id="copy-email-btn" type="button" aria-label="Copy email address" class="px-3.5 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 font-mono-tech text-xs text-zinc-200">
                   <span id="copy-email-label">COPY</span>
                 </button>
               </div>
@@ -936,12 +1182,12 @@
                 <span>GITHUB</span>
                 <span>↗</span>
               </a>
-              <a href="https://www.linkedin.com/in/alesjo-agolli-a82223361/" target="_blank" rel="noopener noreferrer" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
+              <a href="https://www.linkedin.com/company/aleis-tech/" target="_blank" rel="noopener noreferrer" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
                 <span>LINKEDIN</span>
                 <span>↗</span>
               </a>
-              <a href="mailto:agollales@gmail.com" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
-                <span>EMAIL ME</span>
+              <a href="mailto:contact@aleis.tech" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
+                <span>EMAIL US</span>
                 <span>↗</span>
               </a>
             </div>

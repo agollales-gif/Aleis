@@ -651,7 +651,7 @@ function initContactForm() {
   const copyEmailLabel = document.getElementById('copy-email-label');
 
   copyEmailBtn?.addEventListener('click', () => {
-    navigator.clipboard?.writeText('agollales@gmail.com').catch(() => {});
+    navigator.clipboard?.writeText('contact@aleis.tech').catch(() => {});
     if (copyEmailLabel) {
       const original = copyEmailLabel.textContent;
       copyEmailLabel.textContent = 'COPIED ✓';

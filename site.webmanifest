@@ -1,0 +1,32 @@
+{
+  "name": "ALEIS — Digital Engineering, AI & Creative Studio",
+  "short_name": "ALEIS",
+  "description": "Elite digital engineering, AI integration, and bespoke software design studio by Alesjo Agolli.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050507",
+  "theme_color": "#050507",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/aleis-logo.jpg",
+      "sizes": "1024x571",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "categories": [
+    "productivity",
+    "business",
+    "technology",
+    "design"
+  ],
+  "lang": "en"
+}
