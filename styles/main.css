@@ -84,15 +84,19 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.65s;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  will-change: opacity, transform;
+}
+
+@media (max-width: 767px) {
+  .aleis-preloader {
+    display: none !important;
+  }
 }
 
 .aleis-preloader.is-loaded {
   opacity: 0;
   transform: translateY(-3%);
-  visibility: hidden;
   pointer-events: none;
 }
 
@@ -355,13 +359,14 @@ body {
 .eq-bar-5 { animation: eqBarDance1 2.0s ease-in-out infinite 0.2s; }
 
 @keyframes signalPulseFlow {
-  0% { stroke-dashoffset: 260; }
-  100% { stroke-dashoffset: 0; }
+  0%, 100% { opacity: 0.35; transform: scaleY(0.95); }
+  50% { opacity: 1; transform: scaleY(1.05); }
 }
 
 .aleis-wave-glow {
-  stroke-dasharray: 65 195;
-  animation: signalPulseFlow 3.2s linear infinite;
+  transform-origin: center;
+  animation: signalPulseFlow 3.2s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes marqueeScroll {
@@ -379,17 +384,30 @@ body {
   animation-play-state: paused;
 }
 
-/* Founder Card Animated Border Aura */
+/* Founder Card Animated Border Aura (100% GPU composited) */
 @keyframes borderSpinGlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .founder-aura-border {
-  background: linear-gradient(270deg, #00f0ff, #3b82f6, #8b5cf6, #00f0ff);
-  background-size: 300% 300%;
-  animation: borderSpinGlow 6s ease infinite;
+  position: relative;
+  overflow: hidden;
+  background: #07080c;
+  z-index: 1;
+}
+
+.founder-aura-border::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, #00f0ff, #3b82f6, #8b5cf6, #00f0ff);
+  animation: borderSpinGlow 8s linear infinite;
+  will-change: transform;
+  z-index: -1;
 }
 
 /* Form Input Styling */
@@ -415,5 +433,13 @@ body {
 }
 
 .gs-reveal {
+  opacity: 0;
+  transform: translateY(35px) scale(0.98);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
+}
+
+.gs-reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }

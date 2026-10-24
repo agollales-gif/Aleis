@@ -252,41 +252,17 @@
   }
   </script>
 
-  <!-- Google Fonts -->
+  <!-- Precompiled & Minified High-Performance Stylesheet -->
+  <link rel="stylesheet" href="./styles/bundle.min.css" />
+
+  <!-- Google Fonts (Optimized & Non-Render-Blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            void: '#050507',
-            obsidian: '#09090c',
-            surface: '#0e0f14',
-          },
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
-            display: ['Syne', 'Space Grotesk', 'sans-serif'],
-            grotesk: ['Space Grotesk', 'sans-serif'],
-            serif: ['Instrument Serif', 'Georgia', 'serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-        },
-      },
-    };
-  </script>
-
-  <!-- GSAP & ScrollTrigger CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-
-  <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="./styles/main.css" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&family=Syne:wght@700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&family=Syne:wght@700;800&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&family=Syne:wght@700;800&display=swap" />
+  </noscript>
 </head>
 
 <body class="bg-[#050507] text-[#f4f4f6] antialiased relative min-h-screen">
@@ -367,23 +343,23 @@
 
       <!-- The 4 Navigation Links -->
       <nav class="hidden md:flex items-center gap-1 p-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl" aria-label="Primary Navigation">
-        <a href="#what-we-do" class="desktop-nav-link px-4 py-1.5 rounded-full text-xs font-mono-tech uppercase tracking-wider text-zinc-400 hover:text-white transition-all duration-200">
+        <a href="#what-we-do" aria-label="What We Do" class="desktop-nav-link px-4 py-1.5 rounded-full text-xs font-mono-tech uppercase tracking-wider text-zinc-400 hover:text-white transition-all duration-200">
           01. What We Do
         </a>
-        <a href="#works" class="desktop-nav-link px-4 py-1.5 rounded-full text-xs font-mono-tech uppercase tracking-wider text-zinc-400 hover:text-white transition-all duration-200">
+        <a href="#works" aria-label="Works &amp; Portfolio" class="desktop-nav-link px-4 py-1.5 rounded-full text-xs font-mono-tech uppercase tracking-wider text-zinc-400 hover:text-white transition-all duration-200">
           02. Works &amp; Me
         </a>
-        <a href="#why-us" class="desktop-nav-link px-4 py-1.5 rounded-full text-xs font-mono-tech uppercase tracking-wider text-zinc-400 hover:text-white transition-all duration-200">
+        <a href="#why-us" aria-label="Why Choose Us" class="desktop-nav-link px-4 py-1.5 rounded-full text-xs font-mono-tech uppercase tracking-wider text-zinc-400 hover:text-white transition-all duration-200">
           03. Why Choose Us
         </a>
-        <a href="#contact" class="desktop-nav-link px-4 py-1.5 rounded-full text-xs font-mono-tech uppercase tracking-wider text-zinc-400 hover:text-white transition-all duration-200">
+        <a href="#contact" aria-label="Contact ALEIS" class="desktop-nav-link px-4 py-1.5 rounded-full text-xs font-mono-tech uppercase tracking-wider text-zinc-400 hover:text-white transition-all duration-200">
           04. Contact
         </a>
       </nav>
 
       <!-- Right CTA -->
       <div class="hidden md:flex items-center">
-        <a href="#contact" data-magnetic class="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white text-[#050507] font-semibold text-xs sm:text-sm hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_25px_-5px_rgba(0,240,255,0.4)]">
+        <a href="#contact" aria-label="Contact ALEIS" data-magnetic class="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white text-[#050507] font-semibold text-xs sm:text-sm hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_25px_-5px_rgba(0,240,255,0.4)]">
           <span>Start a Project</span>
           <span class="w-5 h-5 rounded-full bg-[#050507] text-white flex items-center justify-center">
             <svg class="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
@@ -407,19 +383,19 @@
     <!-- Mobile Menu Drawer -->
     <div id="mobile-menu" class="hidden opacity-0 -translate-y-2 transition-all duration-200 md:hidden border-b border-white/[0.08] bg-[#050507]/95 backdrop-blur-2xl px-4 pt-3 pb-6" role="navigation" aria-label="Mobile Navigation">
       <div class="flex flex-col space-y-1">
-        <a href="#what-we-do" class="mobile-nav-link flex items-center justify-between px-4 py-3 rounded-xl text-sm font-mono-tech uppercase text-zinc-200 hover:bg-white/[0.05]">
+        <a href="#what-we-do" aria-label="What We Do" class="mobile-nav-link flex items-center justify-between px-4 py-3 rounded-xl text-sm font-mono-tech uppercase text-zinc-200 hover:bg-white/[0.05]">
           <span>What We Do</span>
           <span class="text-cyan-400">01 //</span>
         </a>
-        <a href="#works" class="mobile-nav-link flex items-center justify-between px-4 py-3 rounded-xl text-sm font-mono-tech uppercase text-zinc-200 hover:bg-white/[0.05]">
+        <a href="#works" aria-label="Works &amp; Portfolio" class="mobile-nav-link flex items-center justify-between px-4 py-3 rounded-xl text-sm font-mono-tech uppercase text-zinc-200 hover:bg-white/[0.05]">
           <span>Works &amp; Me</span>
           <span class="text-cyan-400">02 //</span>
         </a>
-        <a href="#why-us" class="mobile-nav-link flex items-center justify-between px-4 py-3 rounded-xl text-sm font-mono-tech uppercase text-zinc-200 hover:bg-white/[0.05]">
+        <a href="#why-us" aria-label="Why Choose Us" class="mobile-nav-link flex items-center justify-between px-4 py-3 rounded-xl text-sm font-mono-tech uppercase text-zinc-200 hover:bg-white/[0.05]">
           <span>Why Choose Us</span>
           <span class="text-cyan-400">03 //</span>
         </a>
-        <a href="#contact" class="mobile-nav-link flex items-center justify-between px-4 py-3 rounded-xl text-sm font-mono-tech uppercase text-zinc-200 hover:bg-white/[0.05]">
+        <a href="#contact" aria-label="Contact ALEIS" class="mobile-nav-link flex items-center justify-between px-4 py-3 rounded-xl text-sm font-mono-tech uppercase text-zinc-200 hover:bg-white/[0.05]">
           <span>Contact</span>
           <span class="text-cyan-400">04 //</span>
         </a>
@@ -442,40 +418,40 @@
       <div class="relative z-10 max-w-[1360px] mx-auto w-full px-4 sm:px-6 lg:px-10 my-auto">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
-          <!-- Left 7 Columns: Short, Punchy Headline & Floating Tech Pills -->
+          <!-- Left 7 Columns: Short, Punchy Headline & Floating Tech Pills (Immediate Paint) -->
           <div class="lg:col-span-7 space-y-7">
-            <div class="gs-reveal inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.1] backdrop-blur-md">
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.1] backdrop-blur-md">
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
               <span class="font-mono-tech text-xs text-cyan-300 uppercase tracking-wider">ALEIS // FULL-STACK, AI &amp; INTERACTIVE DESIGN</span>
             </div>
 
-            <h1 class="gs-reveal font-display text-4xl sm:text-6xl lg:text-[66px] font-extrabold tracking-[-0.03em] leading-[1.03] text-white">
+            <h1 class="font-display text-4xl sm:text-6xl lg:text-[66px] font-extrabold tracking-[-0.03em] leading-[1.03] text-white">
               We Build <span class="text-titanium">Modern Web Apps,</span><br />
               Custom AI &amp;<br />
               <span class="font-serif-editorial italic font-normal text-electric-aleis pr-2">Bold</span> Digital Ecosystems.
             </h1>
 
-            <p class="gs-reveal text-base sm:text-xl text-zinc-300 max-w-xl leading-relaxed font-normal">
+            <p class="text-base sm:text-xl text-zinc-300 max-w-xl leading-relaxed font-normal">
               “We don't just build code or pages; we create powerful digital foundations for businesses and institutions aiming at the future.”
             </p>
 
             <!-- Buttons -->
-            <div class="gs-reveal flex flex-wrap items-center gap-4 pt-1">
-              <a href="#works" data-magnetic class="group inline-flex items-center gap-3 px-7 py-4 rounded-full bg-white text-[#050507] font-semibold text-sm sm:text-base hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_35px_-6px_rgba(0,240,255,0.5)]">
+            <div class="flex flex-wrap items-center gap-4 pt-1">
+              <a href="#works" aria-label="Works &amp; Portfolio" data-magnetic class="group inline-flex items-center gap-3 px-7 py-4 rounded-full bg-white text-[#050507] font-semibold text-sm sm:text-base hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_35px_-6px_rgba(0,240,255,0.5)]">
                 <span>Explore Our Works</span>
                 <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
 
-              <a href="#founder" data-magnetic class="inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-white/[0.04] border border-white/[0.14] text-white font-medium text-sm sm:text-base hover:bg-white/[0.1] hover:border-cyan-400/50 transition-all duration-300">
+              <a href="#founder" aria-label="Meet the Founder" data-magnetic class="inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-white/[0.04] border border-white/[0.14] text-white font-medium text-sm sm:text-base hover:bg-white/[0.1] hover:border-cyan-400/50 transition-all duration-300">
                 <span>Meet the Founder</span>
                 <span class="text-cyan-400">↓</span>
               </a>
             </div>
 
             <!-- Animated Floating Tech Stack Pills -->
-            <div class="gs-reveal pt-3 flex flex-wrap gap-2.5">
+            <div class="pt-3 flex flex-wrap gap-2.5">
               <span class="animate-float-1 px-3.5 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.09] font-mono-tech text-xs text-cyan-300">React • Next.js • TypeScript</span>
               <span class="animate-float-2 px-3.5 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.09] font-mono-tech text-xs text-blue-300">Node.js • Hono • Express</span>
               <span class="animate-float-3 px-3.5 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.09] font-mono-tech text-xs text-emerald-300">Supabase &amp; Cloud</span>
@@ -485,7 +461,7 @@
           </div>
 
           <!-- Right 5 Columns: 3D Tilt Brand & Signal Card -->
-          <div class="lg:col-span-5 gs-reveal" data-parallax-y="-18">
+          <div class="lg:col-span-5">
             <div class="spotlight-card tilt-card rounded-3xl p-1" data-cursor-label="ALEIS CORE">
               <div class="spotlight-content rounded-[22px] bg-[#08090d]/95 p-6 sm:p-7 border border-white/[0.07] space-y-5">
                 
@@ -795,7 +771,7 @@
                   </p>
                 </div>
                 <div class="lg:col-span-4 flex lg:justify-end items-center gap-3">
-                  <a href="https://www.qendradonbosko.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white text-zinc-950 font-semibold text-xs sm:text-sm hover:bg-cyan-300 transition-all shadow-[0_0_25px_-5px_rgba(0,240,255,0.5)]">
+                  <a href="https://www.qendradonbosko.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Qendra Sociale Don Bosko website" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white text-zinc-950 font-semibold text-xs sm:text-sm hover:bg-cyan-300 transition-all shadow-[0_0_25px_-5px_rgba(0,240,255,0.5)]">
                     <span>Visit Live Portal</span>
                     <span>↗</span>
                   </a>
@@ -1004,16 +980,16 @@
 
                   <!-- Direct Personal Action & Portfolio Row -->
                   <div class="pt-2 flex flex-wrap items-center gap-3">
-                    <a href="https://alesjoagolli.vercel.app/" target="_blank" rel="noopener noreferrer" data-magnetic class="px-6 py-3.5 rounded-full bg-white text-zinc-950 font-semibold text-xs sm:text-sm hover:bg-cyan-300 transition-colors shadow-[0_0_25px_-5px_rgba(0,240,255,0.45)]">
+                    <a href="https://alesjoagolli.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Alesjo Agolli Personal Portfolio" data-magnetic class="px-6 py-3.5 rounded-full bg-white text-zinc-950 font-semibold text-xs sm:text-sm hover:bg-cyan-300 transition-colors shadow-[0_0_25px_-5px_rgba(0,240,255,0.45)]">
                       My Personal Portfolio ↗
                     </a>
-                    <a href="#contact" data-magnetic class="px-5 py-3.5 rounded-full bg-cyan-400/15 border border-cyan-400/40 text-cyan-200 font-semibold text-xs sm:text-sm hover:bg-cyan-400/25 transition-colors">
+                    <a href="#contact" aria-label="Contact ALEIS" data-magnetic class="px-5 py-3.5 rounded-full bg-cyan-400/15 border border-cyan-400/40 text-cyan-200 font-semibold text-xs sm:text-sm hover:bg-cyan-400/25 transition-colors">
                       Work With Me Directly →
                     </a>
-                    <a href="https://github.com/agollales-gif" target="_blank" rel="noopener noreferrer" class="px-4 py-3.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono-tech text-zinc-300 hover:text-white hover:border-cyan-400/50 transition-colors">
+                    <a href="https://github.com/agollales-gif" target="_blank" rel="noopener noreferrer" aria-label="Alesjo Agolli GitHub Profile" class="px-4 py-3.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono-tech text-zinc-300 hover:text-white hover:border-cyan-400/50 transition-colors">
                       GitHub ↗
                     </a>
-                    <a href="https://www.linkedin.com/in/alesjo-agolli-a82223361/" target="_blank" rel="noopener noreferrer" class="px-4 py-3.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono-tech text-zinc-300 hover:text-white hover:border-cyan-400/50 transition-colors">
+                    <a href="https://www.linkedin.com/in/alesjo-agolli-a82223361/" target="_blank" rel="noopener noreferrer" aria-label="Alesjo Agolli LinkedIn Profile" class="px-4 py-3.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono-tech text-zinc-300 hover:text-white hover:border-cyan-400/50 transition-colors">
                       LinkedIn ↗
                     </a>
                   </div>
@@ -1146,8 +1122,8 @@
             <div class="spotlight-card rounded-2xl p-5">
               <div class="spotlight-content flex items-center justify-between gap-3">
                 <div>
-                  <div class="font-mono-tech text-[10px] text-zinc-500 uppercase">DIRECT EMAIL</div>
-                  <a href="mailto:contact@aleis.tech" class="font-mono-tech text-sm sm:text-base font-semibold text-white hover:text-cyan-300">
+                  <div class="font-mono-tech text-[10px] text-zinc-400 uppercase">DIRECT EMAIL</div>
+                  <a href="mailto:contact@aleis.tech" aria-label="Send email to contact@aleis.tech" class="font-mono-tech text-sm sm:text-base font-semibold text-white hover:text-cyan-300">
                     contact@aleis.tech
                   </a>
                 </div>
@@ -1161,12 +1137,12 @@
             <div class="spotlight-card rounded-2xl p-5">
               <div class="spotlight-content flex items-center justify-between gap-3">
                 <div>
-                  <div class="font-mono-tech text-[10px] text-zinc-500 uppercase">PHONE &amp; WHATSAPP (TIRANA, AL)</div>
-                  <a href="https://wa.me/355676770825" target="_blank" rel="noopener noreferrer" class="font-mono-tech text-sm sm:text-base font-semibold text-white hover:text-emerald-300">
+                  <div class="font-mono-tech text-[10px] text-zinc-400 uppercase">PHONE &amp; WHATSAPP (TIRANA, AL)</div>
+                  <a href="https://wa.me/355676770825" target="_blank" rel="noopener noreferrer" aria-label="Chat with ALEIS on WhatsApp" class="font-mono-tech text-sm sm:text-base font-semibold text-white hover:text-emerald-300">
                     +355 67 677 0825
                   </a>
                 </div>
-                <a href="https://wa.me/355676770825" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/30 font-mono-tech text-xs text-emerald-300">
+                <a href="https://wa.me/355676770825" target="_blank" rel="noopener noreferrer" aria-label="Chat with ALEIS on WhatsApp" class="px-3.5 py-2 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/30 font-mono-tech text-xs text-emerald-300">
                   WHATSAPP ↗
                 </a>
               </div>
@@ -1174,19 +1150,19 @@
 
             <!-- Socials & Portfolio -->
             <div class="grid grid-cols-2 gap-3 font-mono-tech text-xs">
-              <a href="https://alesjoagolli.vercel.app/" target="_blank" rel="noopener noreferrer" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
+              <a href="https://alesjoagolli.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Alesjo Agolli Personal Portfolio" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
                 <span>PORTFOLIO</span>
                 <span>↗</span>
               </a>
-              <a href="https://github.com/agollales-gif" target="_blank" rel="noopener noreferrer" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
+              <a href="https://github.com/agollales-gif" target="_blank" rel="noopener noreferrer" aria-label="Alesjo Agolli GitHub Profile" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
                 <span>GITHUB</span>
                 <span>↗</span>
               </a>
-              <a href="https://www.linkedin.com/company/aleis-tech/" target="_blank" rel="noopener noreferrer" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
+              <a href="https://www.linkedin.com/company/aleis-tech/" target="_blank" rel="noopener noreferrer" aria-label="ALEIS LinkedIn Company Page" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
                 <span>LINKEDIN</span>
                 <span>↗</span>
               </a>
-              <a href="mailto:contact@aleis.tech" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
+              <a href="mailto:contact@aleis.tech" aria-label="Send email to contact@aleis.tech" data-magnetic class="flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-cyan-400/50 text-zinc-300 hover:text-white transition-all">
                 <span>EMAIL US</span>
                 <span>↗</span>
               </a>
@@ -1201,11 +1177,11 @@
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label for="contact-name" class="block font-mono-tech text-xs uppercase text-zinc-300 mb-2">Your Name *</label>
-                      <input id="contact-name" name="name" type="text" required placeholder="Your Name" class="input-architectural w-full px-4 py-3.5 rounded-xl text-sm placeholder:text-zinc-600" />
+                      <input id="contact-name" name="name" type="text" required placeholder="Your Name" class="input-architectural w-full px-4 py-3.5 rounded-xl text-sm placeholder:text-zinc-400" />
                     </div>
                     <div>
                       <label for="contact-email" class="block font-mono-tech text-xs uppercase text-zinc-300 mb-2">Your Email *</label>
-                      <input id="contact-email" name="email" type="email" required placeholder="you@email.com" class="input-architectural w-full px-4 py-3.5 rounded-xl text-sm placeholder:text-zinc-600" />
+                      <input id="contact-email" name="email" type="email" required placeholder="you@email.com" class="input-architectural w-full px-4 py-3.5 rounded-xl text-sm placeholder:text-zinc-400" />
                     </div>
                   </div>
 
@@ -1221,7 +1197,7 @@
 
                   <div>
                     <label for="contact-message" class="block font-mono-tech text-xs uppercase text-zinc-300 mb-2">Your Message *</label>
-                    <textarea id="contact-message" name="message" rows="4" required placeholder="Tell us briefly about your project..." class="input-architectural w-full px-4 py-3.5 rounded-xl text-sm placeholder:text-zinc-600 resize-y"></textarea>
+                    <textarea id="contact-message" name="message" rows="4" required placeholder="Tell us briefly about your project..." class="input-architectural w-full px-4 py-3.5 rounded-xl text-sm placeholder:text-zinc-400 resize-y"></textarea>
                   </div>
 
                   <button id="contact-submit-btn" type="submit" class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-white text-zinc-950 font-semibold text-sm sm:text-base hover:bg-cyan-300 transition-all duration-300 shadow-[0_0_30px_-5px_rgba(0,240,255,0.4)]">
@@ -1251,7 +1227,7 @@
       ALEIS
     </div>
 
-    <div class="relative z-10 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-mono-tech text-zinc-500">
+    <div class="relative z-10 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-mono-tech text-zinc-400">
       <div class="flex items-center gap-3">
         <span class="font-grotesk font-bold tracking-[0.22em] text-sm text-white">ALEIS</span>
         <span>&copy; 2026 Alesjo Agolli. All rights reserved.</span>
@@ -1265,7 +1241,7 @@
         </span>
         <span class="text-zinc-400">LOCAL TIME:</span>
         <span id="footer-user-location" class="text-white font-semibold uppercase">DETECTING...</span>
-        <span class="text-zinc-600">•</span>
+        <span class="text-zinc-400">•</span>
         <span id="footer-user-time" class="text-cyan-400 font-semibold">--:--:--</span>
       </div>
     </div>
@@ -1287,20 +1263,20 @@
       </div>
       <p id="modal-prj-summary" class="text-sm sm:text-base text-zinc-300 leading-relaxed"></p>
       <div>
-        <div class="font-mono-tech text-xs text-zinc-500 uppercase mb-2">TECHNOLOGIES USED</div>
+        <div class="font-mono-tech text-xs text-zinc-400 uppercase mb-2">TECHNOLOGIES USED</div>
         <div id="modal-prj-stack" class="flex flex-wrap gap-2"></div>
       </div>
       <div class="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-        <a id="modal-live-link" href="https://www.qendradonbosko.com/" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full bg-white/10 border border-white/15 text-white font-mono-tech text-xs hover:bg-white/20 transition-colors">
+        <a id="modal-live-link" href="https://www.qendradonbosko.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Qendra Sociale Don Bosko website" class="px-5 py-2.5 rounded-full bg-white/10 border border-white/15 text-white font-mono-tech text-xs hover:bg-white/20 transition-colors">
           Visit Live Project ↗
         </a>
-        <a id="modal-inquire-cta" href="#contact" class="px-5 py-2.5 rounded-full bg-white text-zinc-950 font-semibold text-xs sm:text-sm hover:bg-cyan-300 transition-colors">
+        <a id="modal-inquire-cta" href="#contact" aria-label="Contact ALEIS" class="px-5 py-2.5 rounded-full bg-white text-zinc-950 font-semibold text-xs sm:text-sm hover:bg-cyan-300 transition-colors">
           Ask About This Project →
         </a>
       </div>
     </div>
   </div>
 
-  <script src="./scripts/app.js" defer></script>
+  <script src="./scripts/app.min.js" defer></script>
 </body>
 </html>

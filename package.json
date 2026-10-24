@@ -1,0 +1,13 @@
+{
+  "name": "aleis-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "bun run tailwindcss -i styles/tailwind-input.css -o styles/tailwind.min.css --minify && bun build styles/main.css --outfile=styles/main.min.css && powershell -Command \"Get-Content styles/tailwind.min.css, styles/main.min.css | Set-Content styles/bundle.min.css\"",
+    "build:js": "bun build scripts/app.js --outfile=scripts/app.min.js --minify",
+    "build": "bun run build:css && bun run build:js"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

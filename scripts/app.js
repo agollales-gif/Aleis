@@ -1,26 +1,38 @@
 /**
  * ALEIS — Digital Engineering & Creative Studio
- * High-Animation Interactive Engine:
- * 1. Cinematic Boot Preloader
- * 2. Hero Harmonic Wave + Interactive Particle Field Canvas
- * 3. 3D Perspective Tilt Cards & Specular Spotlight Tracking
- * 4. Dual-Ring Magnetic Cursor & [data-magnetic] Physics
- * 5. GSAP + ScrollTrigger Staggered Animations & Counters
- * 6. Works Filter, Case Study Modal & Contact Form
+ * High-Performance Interactive Engine:
+ * 1. Cinematic Boot Preloader (Bypassed on mobile, fast on desktop)
+ * 2. Live Telemetry Clock (Instant local timezone, deferred IP lookup)
+ * 3. Hero Harmonic Wave + Particle Field (Offscreen paused, optimized step)
+ * 4. Dual-Ring Magnetic Cursor & Spotlight Tracking (Pointer-fine only)
+ * 5. 3D Perspective Tilt Cards (Pointer-fine only)
+ * 6. High-Performance Native IntersectionObserver Reveals
+ * 7. Works Filter, Case Study Modal & Contact Form
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initPreloader();
-  initLiveTelemetryClock();
-  initHeroHarmonicCanvas();
-  initCustomCursorAndSpotlights();
-  init3DTiltCards();
-  initMagneticElements();
+  // Critical interactive systems initialized immediately
   initNavbarAndMobileMenu();
-  initGsapAndScrollAnimations();
+  initNativeScrollAnimations();
   initPortfolioFilterAndModal();
   initContactForm();
-  initAnimatedFavicon();
+
+  // Non-critical visual eye-candy deferred to idle to protect FCP, LCP & TBT
+  const bootSecondaryEnhancements = () => {
+    initPreloader();
+    initLiveTelemetryClock();
+    initHeroHarmonicCanvas();
+    initCustomCursorAndSpotlights();
+    init3DTiltCards();
+    initMagneticElements();
+    initAnimatedFavicon();
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(bootSecondaryEnhancements, { timeout: 1200 });
+  } else {
+    setTimeout(bootSecondaryEnhancements, 80);
+  }
 });
 
 /* ==========================================================================
@@ -28,12 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
    ========================================================================== */
 function initPreloader() {
   const preloader = document.getElementById('aleis-preloader');
-  const counterEl = document.getElementById('preloader-counter');
-  const barEl = document.getElementById('preloader-bar');
   if (!preloader) return;
 
+  // On mobile or if already marked loaded, bypass immediately
+  if (window.innerWidth < 768) {
+    preloader.classList.add('is-loaded');
+    return;
+  }
+
+  const counterEl = document.getElementById('preloader-counter');
+  const barEl = document.getElementById('preloader-bar');
   let progress = 0;
-  const duration = 850;
+  const duration = 240;
   const start = performance.now();
 
   function step(now) {
@@ -45,9 +63,7 @@ function initPreloader() {
     if (progress < 100) {
       requestAnimationFrame(step);
     } else {
-      setTimeout(() => {
-        preloader.classList.add('is-loaded');
-      }, 150);
+      preloader.classList.add('is-loaded');
     }
   }
 
@@ -62,7 +78,7 @@ function initLiveTelemetryClock() {
   const footerLocationEl = document.getElementById('footer-user-location');
   const footerTimeEl = document.getElementById('footer-user-time');
 
-  // Instant timezone-based location detection (zero latency & offline-ready)
+  // Instant timezone-based location detection (0ms latency & offline-ready)
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
   const tzParts = tz.split('/');
   const city = (tzParts[tzParts.length - 1] || 'LOCAL').replace(/_/g, ' ');
@@ -73,20 +89,26 @@ function initLiveTelemetryClock() {
     footerLocationEl.textContent = detectedPlace;
   }
 
-  // Optional IP-based Country + City enrichment
-  fetch('https://ipapi.co/json/')
-    .then((res) => (res.ok ? res.json() : null))
-    .then((data) => {
-      if (data && data.country_name) {
-        detectedPlace = data.city ? `${data.city}, ${data.country_name}` : data.country_name;
-        if (footerLocationEl) {
-          footerLocationEl.textContent = detectedPlace;
+  // Defer optional 3rd-party IP geo enrichment so it never blocks page load
+  const fetchGeo = () => {
+    fetch('https://ipapi.co/json/')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && data.country_name) {
+          detectedPlace = data.city ? `${data.city}, ${data.country_name}` : data.country_name;
+          if (footerLocationEl) {
+            footerLocationEl.textContent = detectedPlace;
+          }
         }
-      }
-    })
-    .catch(() => {
-      // Keep timezone-derived location on offline or blocked network
-    });
+      })
+      .catch(() => {});
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(fetchGeo, { timeout: 3500 });
+  } else {
+    setTimeout(fetchGeo, 2500);
+  }
 
   function updateClocks() {
     const now = new Date();
@@ -97,7 +119,6 @@ function initLiveTelemetryClock() {
       hour12: false,
     });
 
-    // Calculate UTC offset label (e.g., GMT+2)
     const offsetMins = -now.getTimezoneOffset();
     const sign = offsetMins >= 0 ? '+' : '-';
     const offsetHrs = Math.floor(Math.abs(offsetMins) / 60);
@@ -125,53 +146,77 @@ function initHeroHarmonicCanvas() {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  let width = 0;
-  let height = 0;
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const isMobile = window.innerWidth < 768;
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  let width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
+  let height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
   let time = 0;
   let mouseX = 0.5;
   let mouseY = 0.5;
   let targetMouseX = 0.5;
   let targetMouseY = 0.5;
+  let isHeroVisible = true;
+  let rafId = null;
 
-  const particles = Array.from({ length: 36 }, () => ({
+  const particleCount = isMobile ? 14 : 28;
+  const particles = Array.from({ length: particleCount }, () => ({
     x: Math.random(),
     y: Math.random(),
-    r: Math.random() * 1.8 + 0.6,
-    vx: (Math.random() - 0.5) * 0.0004,
-    vy: (Math.random() - 0.5) * 0.0004,
-    alpha: Math.random() * 0.45 + 0.15,
+    r: Math.random() * 1.4 + 0.5,
+    vx: (Math.random() - 0.5) * 0.0003,
+    vy: (Math.random() - 0.5) * 0.0003,
+    alpha: Math.random() * 0.35 + 0.12,
   }));
 
   function resize() {
-    const rect = canvas.parentElement.getBoundingClientRect();
-    width = rect.width;
-    height = rect.height;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
+    if (!canvas.parentElement) return;
+    width = canvas.parentElement.clientWidth;
+    height = canvas.parentElement.clientHeight;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
-  window.addEventListener(
-    'mousemove',
-    (e) => {
-      targetMouseX = e.clientX / Math.max(window.innerWidth, 1);
-      targetMouseY = e.clientY / Math.max(window.innerHeight, 1);
+  if (!isMobile) {
+    window.addEventListener(
+      'mousemove',
+      (e) => {
+        targetMouseX = e.clientX / Math.max(window.innerWidth, 1);
+        targetMouseY = e.clientY / Math.max(window.innerHeight, 1);
+      },
+      { passive: true }
+    );
+  }
+
+  // Only animate canvas when in viewport — saves 100% CPU when scrolling down
+  const heroObserver = new IntersectionObserver(
+    (entries) => {
+      isHeroVisible = entries[0].isIntersecting;
+      if (isHeroVisible && !rafId) {
+        render();
+      }
     },
-    { passive: true }
+    { threshold: 0.05 }
   );
+  heroObserver.observe(canvas);
 
   const waves = [
-    { color: 'rgba(0, 240, 255, 0.26)', amp: 42, freq: 0.0045, speed: 0.022, offset: 0 },
-    { color: 'rgba(59, 130, 246, 0.22)', amp: 56, freq: 0.0035, speed: 0.016, offset: 1.8 },
-    { color: 'rgba(99, 102, 241, 0.18)', amp: 34, freq: 0.0055, speed: 0.026, offset: 3.4 },
-    { color: 'rgba(139, 92, 246, 0.16)', amp: 68, freq: 0.0028, speed: 0.013, offset: 5.1 },
+    { color: 'rgba(0, 240, 255, 0.22)', amp: 38, freq: 0.0045, speed: 0.022, offset: 0 },
+    { color: 'rgba(59, 130, 246, 0.18)', amp: 48, freq: 0.0035, speed: 0.016, offset: 1.8 },
+    { color: 'rgba(99, 102, 241, 0.14)', amp: 30, freq: 0.0055, speed: 0.026, offset: 3.4 },
   ];
 
+  const stepX = isMobile ? 14 : 8;
+
   function render() {
+    if (!isHeroVisible) {
+      rafId = null;
+      return;
+    }
+
     ctx.clearRect(0, 0, width, height);
 
     mouseX += (targetMouseX - mouseX) * 0.07;
@@ -187,8 +232,8 @@ function initHeroHarmonicCanvas() {
       if (p.y < 0) p.y = 1;
       if (p.y > 1) p.y = 0;
 
-      const px = p.x * width + (mouseX - 0.5) * 30;
-      const py = p.y * height + (mouseY - 0.5) * 30;
+      const px = p.x * width + (mouseX - 0.5) * 20;
+      const py = p.y * height + (mouseY - 0.5) * 20;
 
       ctx.beginPath();
       ctx.arc(px, py, p.r, 0, Math.PI * 2);
@@ -196,20 +241,18 @@ function initHeroHarmonicCanvas() {
       ctx.fill();
     });
 
-    const centerY = height * 0.52 + (mouseY - 0.5) * 55;
+    const centerY = height * 0.52 + (mouseY - 0.5) * 45;
 
     waves.forEach((w) => {
       ctx.beginPath();
       ctx.strokeStyle = w.color;
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1.4;
 
-      for (let x = 0; x <= width; x += 6) {
-        const distFromMouse = Math.abs(x / width - mouseX);
-        const mouseBoost = Math.max(0, 1 - distFromMouse * 2.6) * 38;
+      for (let x = 0; x <= width; x += stepX) {
         const y =
           centerY +
-          Math.sin(x * w.freq + time * w.speed + w.offset) * (w.amp + mouseBoost) +
-          Math.cos(x * w.freq * 1.6 - time * w.speed * 0.7) * (w.amp * 0.35);
+          Math.sin(x * w.freq + time * w.speed + w.offset) * w.amp +
+          Math.cos(x * w.freq * 1.6 - time * w.speed * 0.7) * (w.amp * 0.3);
 
         if (x === 0) {
           ctx.moveTo(x, y);
@@ -220,16 +263,18 @@ function initHeroHarmonicCanvas() {
       ctx.stroke();
     });
 
-    requestAnimationFrame(render);
+    rafId = requestAnimationFrame(render);
   }
 
-  requestAnimationFrame(render);
+  render();
 }
 
 /* ==========================================================================
    4. Custom Dual-Layer Magnetic Cursor & Spotlight Tracking
    ========================================================================== */
 function initCustomCursorAndSpotlights() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
   const root = document.documentElement;
   const cursorDot = document.getElementById('cursor-dot');
   const cursorRing = document.getElementById('cursor-ring');
@@ -253,17 +298,24 @@ function initCustomCursorAndSpotlights() {
       if (cursorDot) {
         cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate3d(-50%, -50%, 0)`;
       }
-
-      cards.forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--mouse-x', `${mouseX - rect.left}px`);
-        card.style.setProperty('--mouse-y', `${mouseY - rect.top}px`);
-      });
     },
     { passive: true }
   );
 
-  if (cursorRing && window.matchMedia('(pointer: fine)').matches) {
+  // Directly attach spotlight to cards on mousemove — ZERO global loop reflows
+  cards.forEach((card) => {
+    card.addEventListener(
+      'mousemove',
+      (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      },
+      { passive: true }
+    );
+  });
+
+  if (cursorRing) {
     const animateRing = () => {
       ringX += (mouseX - ringX) * 0.18;
       ringY += (mouseY - ringY) * 0.18;
@@ -300,193 +352,145 @@ function init3DTiltCards() {
 
   const tiltCards = document.querySelectorAll('.tilt-card');
   tiltCards.forEach((card) => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+    card.addEventListener(
+      'mousemove',
+      (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const rotX = ((y - cy) / cy) * -6;
+        const rotY = ((x - cx) / cx) * 6;
 
-      const rotateX = ((y - centerY) / centerY) * -5.5;
-      const rotateY = ((x - centerX) / centerX) * 5.5;
+        card.style.transform = `perspective(900px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale3d(1.015, 1.015, 1.015)`;
+      },
+      { passive: true }
+    );
 
-      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-    });
+    card.addEventListener(
+      'mouseleave',
+      () => {
+        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      },
+      { passive: true }
+    );
   });
 }
 
 /* ==========================================================================
-   6. Magnetic Buttons & Links ([data-magnetic])
+   6. [data-magnetic] Physics on Buttons & Badges
    ========================================================================== */
 function initMagneticElements() {
   if (!window.matchMedia('(pointer: fine)').matches) return;
 
-  const magnetics = document.querySelectorAll('[data-magnetic]');
-  magnetics.forEach((el) => {
-    el.addEventListener('mousemove', (e) => {
-      const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      el.style.transform = `translate3d(${x * 0.24}px, ${y * 0.28}px, 0)`;
-    });
+  const magnets = document.querySelectorAll('[data-magnetic]');
+  magnets.forEach((el) => {
+    el.addEventListener(
+      'mousemove',
+      (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - (rect.left + rect.width / 2);
+        const y = e.clientY - (rect.top + rect.height / 2);
+        el.style.transform = `translate3d(${x * 0.28}px, ${y * 0.28}px, 0)`;
+      },
+      { passive: true }
+    );
 
-    el.addEventListener('mouseleave', () => {
-      el.style.transform = 'translate3d(0px, 0px, 0)';
-    });
+    el.addEventListener(
+      'mouseleave',
+      () => {
+        el.style.transform = 'translate3d(0, 0, 0)';
+      },
+      { passive: true }
+    );
   });
 }
 
 /* ==========================================================================
-   7. Responsive Navbar & Mobile Menu Drawer
+   7. Navigation Header Backdrop & Mobile Drawer
    ========================================================================== */
 function initNavbarAndMobileMenu() {
   const header = document.getElementById('site-header');
-  const mobileToggle = document.getElementById('mobile-menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuIconOpen = document.getElementById('menu-icon-open');
-  const menuIconClose = document.getElementById('menu-icon-close');
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  const menuDrawer = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
   const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-  const navLinks = document.querySelectorAll('.desktop-nav-link');
-  const sections = document.querySelectorAll('section[id]');
 
-  let isMenuOpen = false;
-
-  function toggleMenu(forceState) {
-    isMenuOpen = typeof forceState === 'boolean' ? forceState : !isMenuOpen;
-    if (!mobileMenu || !mobileToggle) return;
-
-    mobileToggle.setAttribute('aria-expanded', String(isMenuOpen));
-
-    if (isMenuOpen) {
-      mobileMenu.classList.remove('hidden');
-      requestAnimationFrame(() => {
-        mobileMenu.classList.remove('opacity-0', '-translate-y-2');
-        mobileMenu.classList.add('opacity-100', 'translate-y-0');
-      });
-      menuIconOpen?.classList.add('hidden');
-      menuIconClose?.classList.remove('hidden');
-    } else {
-      mobileMenu.classList.remove('opacity-100', 'translate-y-0');
-      mobileMenu.classList.add('opacity-0', '-translate-y-2');
-      menuIconOpen?.classList.remove('hidden');
-      menuIconClose?.classList.add('hidden');
-      setTimeout(() => {
-        if (!isMenuOpen) mobileMenu.classList.add('hidden');
-      }, 220);
-    }
-  }
-
-  mobileToggle?.addEventListener('click', () => toggleMenu());
-  mobileLinks.forEach((link) => link.addEventListener('click', () => toggleMenu(false)));
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isMenuOpen) toggleMenu(false);
-  });
-
+  let lastY = 0;
   window.addEventListener(
     'scroll',
     () => {
-      const scrollY = window.scrollY;
+      const currentY = window.scrollY;
       if (header) {
-        if (scrollY > 30) {
-          header.classList.add('bg-[#050507]/90', 'shadow-2xl', 'shadow-black/80');
-          header.classList.remove('bg-[#050507]/65');
+        if (currentY > 30) {
+          header.classList.add('bg-[#050507]/90', 'border-white/[0.12]', 'shadow-2xl');
+          header.classList.remove('bg-[#050507]/65', 'border-white/[0.07]');
         } else {
-          header.classList.remove('bg-[#050507]/90', 'shadow-2xl', 'shadow-black/80');
-          header.classList.add('bg-[#050507]/65');
+          header.classList.remove('bg-[#050507]/90', 'border-white/[0.12]', 'shadow-2xl');
+          header.classList.add('bg-[#050507]/65', 'border-white/[0.07]');
         }
       }
-
-      let currentSection = '';
-      sections.forEach((section) => {
-        const top = section.offsetTop - 200;
-        const height = section.offsetHeight;
-        if (scrollY >= top && scrollY < top + height) {
-          currentSection = section.getAttribute('id') || '';
-        }
-      });
-
-      navLinks.forEach((link) => {
-        const href = link.getAttribute('href') || '';
-        if (currentSection && href === `#${currentSection}`) {
-          link.classList.add('text-white', 'bg-white/10');
-          link.classList.remove('text-zinc-400');
-        } else {
-          link.classList.remove('text-white', 'bg-white/10');
-          link.classList.add('text-zinc-400');
-        }
-      });
+      lastY = currentY;
     },
     { passive: true }
   );
+
+  function toggleMobileMenu() {
+    if (!menuDrawer) return;
+    const isHidden = menuDrawer.classList.contains('hidden');
+
+    if (isHidden) {
+      menuDrawer.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        menuDrawer.classList.remove('opacity-0', '-translate-y-2');
+        menuDrawer.classList.add('opacity-100', 'translate-y-0');
+      });
+      iconOpen?.classList.add('hidden');
+      iconClose?.classList.remove('hidden');
+      toggleBtn?.setAttribute('aria-expanded', 'true');
+    } else {
+      menuDrawer.classList.remove('opacity-100', 'translate-y-0');
+      menuDrawer.classList.add('opacity-0', '-translate-y-2');
+      setTimeout(() => {
+        menuDrawer.classList.add('hidden');
+      }, 200);
+      iconOpen?.classList.remove('hidden');
+      iconClose?.classList.add('hidden');
+      toggleBtn?.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  toggleBtn?.addEventListener('click', toggleMobileMenu);
+  mobileLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      if (menuDrawer && !menuDrawer.classList.contains('hidden')) {
+        toggleMobileMenu();
+      }
+    });
+  });
 }
 
 /* ==========================================================================
-   8. GSAP + ScrollTrigger Animations, Progress Bars & Counters
+   8. Native C++ IntersectionObserver Scroll Animations & Fast Counters
    ========================================================================== */
-function initGsapAndScrollAnimations() {
-  const hasGsap = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
+function initNativeScrollAnimations() {
+  const revealEls = document.querySelectorAll('.gs-reveal');
 
-  if (hasGsap) {
-    const gsap = window.gsap;
-    const ScrollTrigger = window.ScrollTrigger;
-    gsap.registerPlugin(ScrollTrigger);
-
-    const revealEls = document.querySelectorAll('.gs-reveal');
-    revealEls.forEach((el) => {
-      gsap.fromTo(
-        el,
-        { y: 45, opacity: 0, scale: 0.97 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.95,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 88%',
-            toggleActions: 'play none none none',
-          },
+  const revealObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          revealObs.unobserve(entry.target);
         }
-      );
-    });
-
-    const parallaxEls = document.querySelectorAll('[data-parallax-y]');
-    parallaxEls.forEach((el) => {
-      const yOffset = parseFloat(el.getAttribute('data-parallax-y') || '-24');
-      gsap.to(el, {
-        y: yOffset,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
       });
-    });
-  } else {
-    const revealEls = document.querySelectorAll('.gs-reveal');
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.transition = 'opacity 0.75s ease, transform 0.75s ease';
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0) scale(1)';
-            obs.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-    revealEls.forEach((el) => obs.observe(el));
-  }
+    },
+    { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
+  );
+
+  revealEls.forEach((el) => revealObs.observe(el));
 
   // Animated Counters
   const counters = document.querySelectorAll('[data-counter-target]');
@@ -495,13 +499,13 @@ function initGsapAndScrollAnimations() {
     const suffix = el.getAttribute('data-counter-suffix') || '';
     const prefix = el.getAttribute('data-counter-prefix') || '';
     const decimals = parseInt(el.getAttribute('data-counter-decimals') || '0', 10);
-    const duration = 1700;
+    const duration = 1400;
     const startTime = performance.now();
 
     function tick(now) {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 4);
+      const eased = 1 - Math.pow(1 - progress, 3);
       const current = target * eased;
       el.textContent = `${prefix}${current.toFixed(decimals)}${suffix}`;
       if (progress < 1) requestAnimationFrame(tick);
@@ -519,7 +523,7 @@ function initGsapAndScrollAnimations() {
         }
       });
     },
-    { threshold: 0.35 }
+    { threshold: 0.3 }
   );
 
   counters.forEach((c) => counterObs.observe(c));
@@ -603,7 +607,7 @@ function initPortfolioFilterAndModal() {
       stackEl.innerHTML = data.stack
         .map(
           (s) =>
-            `<span class="px-3 py-1 text-xs font-mono-tech rounded-full bg-zinc-900 border border-white/10 text-zinc-200">${s}</span>`
+            `<span class="px-3 py-1 text-xs font-mono-tech rounded-full bg-zinc-900 border border-white/10 text-zinc-300">${s}</span>`
         )
         .join('');
     }
@@ -620,7 +624,6 @@ function initPortfolioFilterAndModal() {
 
   triggers.forEach((t) => {
     t.addEventListener('click', (e) => {
-      // Allow direct external links inside cards to open normally
       if (e.target.closest('a')) return;
       const id = t.getAttribute('data-project-id');
       if (id) openModal(id);
@@ -692,14 +695,16 @@ function initContactForm() {
         submitBtn.classList.add('bg-white', 'text-zinc-950');
         submitBtn.classList.remove('bg-cyan-400');
       }, 3800);
-    }, 700);
+    }, 600);
   });
 }
 
 /* ==========================================================================
-   11. Real-Time Dynamic Animated Tab Favicon
+   11. Real-Time Dynamic Animated Tab Favicon (Only active on desktop)
    ========================================================================== */
 function initAnimatedFavicon() {
+  if (window.innerWidth < 768) return;
+
   const faviconLink = document.getElementById('dynamic-favicon') || document.querySelector("link[rel*='icon']");
   if (!faviconLink) return;
 
@@ -710,13 +715,12 @@ function initAnimatedFavicon() {
   if (!ctx) return;
 
   let step = 0;
-  let interval = null;
 
   function renderFavicon() {
+    if (document.hidden) return;
     step += 0.22;
     ctx.clearRect(0, 0, 32, 32);
 
-    // 1. Dark squircle background
     ctx.save();
     ctx.beginPath();
     if (ctx.roundRect) {
@@ -727,7 +731,6 @@ function initAnimatedFavicon() {
     ctx.fillStyle = '#08090e';
     ctx.fill();
 
-    // 2. Glowing animated gradient border
     const borderGrad = ctx.createLinearGradient(0, 0, 32, 32);
     borderGrad.addColorStop(0, '#00f0ff');
     borderGrad.addColorStop(0.5, '#3b82f6');
@@ -737,79 +740,51 @@ function initAnimatedFavicon() {
     ctx.stroke();
     ctx.restore();
 
-    // 3. Glowing cyan aura behind monogram
     const auraAlpha = 0.16 + 0.1 * Math.sin(step);
     ctx.beginPath();
     ctx.arc(13, 16, 8, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(0, 240, 255, ${auraAlpha})`;
     ctx.fill();
 
-    // 4. Sharp geometric "A" monogram
     ctx.save();
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
-    ctx.moveTo(5.5, 25.5);
-    ctx.lineTo(11.8, 7);
-    ctx.lineTo(14.8, 7);
-    ctx.lineTo(21.2, 25.5);
-    ctx.lineTo(17.8, 25.5);
-    ctx.lineTo(16.3, 20.8);
-    ctx.lineTo(10.5, 20.8);
-    ctx.lineTo(9, 25.5);
+    ctx.moveTo(7, 24);
+    ctx.lineTo(13, 8);
+    ctx.lineTo(19, 24);
+    ctx.lineTo(15.8, 24);
+    ctx.lineTo(14.6, 20.5);
+    ctx.lineTo(11.4, 20.5);
+    ctx.lineTo(10.2, 24);
     ctx.closePath();
     ctx.fill();
 
-    // Inner cutout for A
-    ctx.beginPath();
-    ctx.moveTo(11.4, 17.5);
-    ctx.lineTo(15.4, 17.5);
-    ctx.lineTo(13.3, 11.2);
-    ctx.closePath();
     ctx.fillStyle = '#08090e';
+    ctx.beginPath();
+    ctx.moveTo(13, 13);
+    ctx.lineTo(14.1, 17.5);
+    ctx.lineTo(11.9, 17.5);
+    ctx.closePath();
     ctx.fill();
     ctx.restore();
 
-    // 5. Bouncing equalizer soundwave bars
-    const h1 = 4.5 + 6.5 * Math.abs(Math.sin(step * 1.1));
-    const h2 = 6.5 + 11.5 * Math.abs(Math.sin(step * 1.45 + 0.6));
-    const h3 = 4.0 + 8.5 * Math.abs(Math.sin(step * 0.95 + 1.3));
+    const bar1H = 6 + 5 * Math.sin(step * 1.4);
+    const bar2H = 12 + 6 * Math.cos(step * 1.8);
+    const bar3H = 8 + 5 * Math.sin(step * 1.2 + 1.2);
 
-    // Bar 1 (Electric Cyan)
     ctx.fillStyle = '#00f0ff';
-    ctx.fillRect(22.5, 25.5 - h1, 2, h1);
+    ctx.fillRect(22, 24 - bar1H, 1.8, bar1H);
 
-    // Bar 2 (Sky Blue)
-    ctx.fillStyle = '#38bdf8';
-    ctx.fillRect(25.5, 25.5 - h2, 2, h2);
+    ctx.fillStyle = '#3b82f6';
+    ctx.fillRect(25, 24 - bar2H, 1.8, bar2H);
 
-    // Bar 3 (Indigo)
-    ctx.fillStyle = '#818cf8';
-    ctx.fillRect(28.5, 25.5 - h3, 2, h3);
+    ctx.fillStyle = '#8b5cf6';
+    ctx.fillRect(28, 24 - bar3H, 1.8, bar3H);
 
-    // Update tab icon
-    faviconLink.href = canvas.toDataURL('image/png');
+    try {
+      faviconLink.href = canvas.toDataURL('image/png');
+    } catch (_) {}
   }
 
-  function start() {
-    if (!interval) {
-      interval = setInterval(renderFavicon, 85);
-    }
-  }
-
-  function stop() {
-    if (interval) {
-      clearInterval(interval);
-      interval = null;
-    }
-  }
-
-  start();
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      stop();
-    } else {
-      start();
-    }
-  });
+  setInterval(renderFavicon, 350);
 }
